@@ -101,3 +101,191 @@ void AddressBook::findPerson(string last, string first){
         cout<<"Email: "<<n->email<<endl;
     }
 }
+
+void AddressBook::sendEmail(string last, string first,string message){
+    addressNode *n= search(last,first);
+    if(n==NULL){
+        cout<<"Contact does not exist"<<endl;
+    }
+    else{
+        cout<<"Sending email....."<<endl;
+        n->message=message;
+        cout<<"Message: "<<n->message<<endl;
+        cout<<"Sent to: "<<n->first<<" "<<n->last<<endl;
+        cout<<"At: "<<n->email<<endl;
+    }
+}
+
+addressNode* AddressBook::findMin(addressNode *node){
+    addressNode* temp=node;
+    while(temp->leftChild!=NULL){
+        temp=temp->leftChild;
+    }
+    return temp;
+}
+
+void AddressBook::saveFile(){
+    if(root==NULL){
+        cout<<"You have no contacts to save."<<endl;
+    }
+    else
+        saveFile(root);
+}
+void AddressBook::saveFile(addressNode *n){
+    cout<<n->first<<" "<<n->last<<endl;
+    if(n->leftChild!=NULL){
+        saveFile(n->leftChild);
+    }
+    if(n->rightChild!=NULL){
+        saveFile(n->rightChild);
+    }
+}
+
+void AddressBook::changeContact(string last, string first){
+    addressNode *n= search(last,first);
+    if(n==NULL){
+        cout<<"Contact does not exist"<<endl;
+    }
+    else{
+        cout<<"===Change Options==="<<endl;
+        cout<<"1. Change email"<<endl;
+        cout<<"2. Change phone number"<<endl;
+        cout<<"3. Change address"<<endl;
+        string answer;
+        getline(cin,answer);
+        if(answer=="1"){
+            cout<<"Enter a new email"<<endl;
+            string newE;
+            getline(cin,newE);
+            n->email=newE;
+        }
+         else if(answer=="2"){
+            cout<<"Enter a new phone number"<<endl;
+            string newN;
+            getline(cin,newN);
+            n->phone=newN;
+        }
+        else if(answer=="3"){
+            cout<<"Enter a new address"<<endl;
+            string newA;
+            getline(cin,newA);
+            n->address=newA;
+        }
+        cout<<"Contact successfully changed."<<endl;
+    }
+}
+
+void AddressBook::deletePerson(string last, string first){
+    addressNode *node=search(last,first);
+    if(node==NULL){
+        cout<<"Contact does not exist."<<endl;
+    }
+    else{
+        if(node->leftChild==NULL&& node->rightChild==NULL){ ///Case I: Node has no children
+            if(node!=root){
+                if(node->parent->leftChild==node) ///Handles left side
+                    node->parent->leftChild=NULL;
+                else{ ///Handles right side
+                    node->parent->rightChild=NULL;
+                }
+            }
+            else
+                root=NULL;
+        }
+        else if(node->leftChild!=NULL && node->rightChild!=NULL){ ///Case II: Node has 2 Children
+            addressNode *Min= findMin(node->rightChild); ///Calls find min function
+            if(node==root){
+                if(Min==node->rightChild){
+                    Min->parent=NULL;
+                    Min->leftChild=node->leftChild;
+                    Min->leftChild->parent=Min;
+                }
+                else{
+                    Min->parent->leftChild=Min->rightChild;
+                    if(Min->rightChild!=NULL){
+                        Min->rightChild->parent=Min->parent;
+                    }
+                    Min->parent=NULL;
+                    Min->leftChild=node->leftChild;
+                    Min->rightChild=node->rightChild;
+                    node->rightChild->parent=Min;
+                    node->leftChild->parent=Min;
+                    }
+                root=Min;
+            }
+            else if(Min==node->rightChild){ ///Case where min is a right child of node
+                if(node->parent->leftChild==node){ ///Handles left side
+                    node->parent->leftChild= Min;
+                    Min->parent= node->parent;
+                    node->leftChild->parent= Min;
+                    Min->leftChild= node->leftChild;
+                }
+                else{ ///Handles left side
+                    node->parent->rightChild= Min;
+                    Min->parent= node->parent;
+                    node->leftChild->parent= Min;
+                    Min->leftChild= node->leftChild;
+                }
+            }
+            else{ ///Min is not the right child
+                if(node->parent->leftChild==node){ ///Handles left side
+                    Min->parent->leftChild= Min->rightChild;
+                    Min->rightChild->parent= Min->parent;
+                    Min->parent=node->parent;
+                    node->parent->leftChild= Min;
+                    Min->leftChild= node->leftChild;
+                    Min->rightChild= node->rightChild;
+                    node->rightChild->parent= Min;
+                    node->leftChild->parent= Min;
+                }
+                else{ ///Handles right side
+                    Min->parent->leftChild= Min->rightChild;
+                    Min->rightChild->parent= Min->parent;
+                    Min->parent=node->parent;
+                    node->parent->rightChild= Min;
+                    Min->leftChild= node->leftChild;
+                    Min->rightChild= node->rightChild;
+                    node->rightChild->parent= Min;
+                    node->leftChild->parent= Min;
+                }
+            }
+        }
+        else{ ///Case III: Node has 1 child
+            if(node==root){
+               if(node->rightChild!=NULL){
+                    root=node->rightChild;
+               }
+               else{
+                    root=node->leftChild;
+               }
+            }
+           else if(node->parent->leftChild==node){ ///if one child is left child
+                if(node->leftChild!=NULL){ ///Handles left side
+                    addressNode *n= node->leftChild;
+                    node->parent->leftChild=n;
+                    n->parent= node->parent;
+                }
+                else{ ///Handles right side
+                    addressNode *n= node->rightChild;
+                    node->parent->leftChild=n;
+                    n->parent= node->parent;
+                }
+            }
+            else{ ///If one child is right child
+                if(node->leftChild!=NULL){ ///Handles left side
+                    addressNode *n= node->leftChild;
+                    node->parent->rightChild=n;
+                    n->parent= node->parent;
+                }
+                else{ ///Handles right side
+                    addressNode *n= node->rightChild;
+                    node->parent->rightChild=n;
+                    n->parent= node->parent;
+                }
+            }
+        }
+        delete node; ///Deletes node
+
+
+    }
+}
