@@ -2,6 +2,7 @@
 #include "AddressBook.h"
 #include <fstream>
 #include "Calender.h"
+#include <sstream>
 using namespace std;
 
 int main()
@@ -89,22 +90,33 @@ int main()
         else if(answer=="7"){
             string title;
             int time;
-            cout<<"Event Name: ";
+            string t;
+            cout<<"Event Name: "<<endl;
             getline(cin, title);
-            cout<<"Time: ";
-            cin>>time;
+            cout<<"Time: (Please enter military time. Ex: 0700 for 7:00 am)"<<endl;
+            getline(cin, t);
+            stringstream convert(t);
+            convert>>time;
             c.addDate(title, time);
         }
         else if(answer=="8"){
-            cout<<"8"<<endl;
+            cout<<"Please enter the name of the appointment you would like to cancel:"<<endl;
+            string name;
+            getline(cin,name);
+            c.cancel(name);
         }
         else if(answer=="9"){
-            cout<<"9"<<endl;
+            c.print();
         }
         else if(answer=="10"){
-            cout<<"10"<<endl;
+            cout<<"Please enter a time you would like to search for:"<<endl;
+            string t;
+            int time;
+            getline(cin, t);
+            stringstream convert(t);
+            convert>>time;
+            c.findDate(time);
         }
-        cin.ignore();
     cout<<"====Address Book and Appointment Book Options===="<<endl;
     cout<<"1. Add a contact"<<endl;
     cout<<"2. Find contact information"<<endl;
