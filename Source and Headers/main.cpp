@@ -1,6 +1,7 @@
 #include <iostream>
 #include "AddressBook.h"
 #include <fstream>
+#include <sstream>
 #include "Calender.h"
 using namespace std;
 
@@ -22,13 +23,29 @@ int main()
     getline(cin,answer);
     AddressBook ab;
     Calender c;
+    fstream addresses;
+    addresses.open("AddressSave.txt");
     while(answer!="11"){
         if(answer=="1"){
             cout<<"Do you want to read in a contact file? y or n"<<endl;
             string a;
             getline(cin,a);
             if(a=="y"){
-                cout<<"Reading in file!"<<endl;
+                if (addresses.good()){
+                    cout<<"File successfully opened."<<endl;
+                    string first, last, email, phone, address, line;
+                    while (getline(addresses, line))
+                    {
+                        stringstream ss(line);
+                        getline(ss, first, ',');
+                        getline(ss,last, ',');
+                        getline(ss,address,',');
+                        getline(ss,email,',');
+                        getline(ss,phone,',');
+                        ab.addAddress(first,last,address,phone,email);
+                    }
+                    addresses.close();
+                }
             }
             else{
                 cout<<"Enter first and last name: (Ex: Jane Doe)"<<endl;
