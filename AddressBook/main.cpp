@@ -1,28 +1,21 @@
 #include <iostream>
 #include "AddressBook.h"
-#include <fstream>
-#include "Calender.h"
 using namespace std;
 
 int main()
 {
-    cout<<"====Address Book and Appointment Book Options===="<<endl;
+    cout<<"====Address Book Options===="<<endl;
     cout<<"1. Add a contact"<<endl;
     cout<<"2. Find contact information"<<endl;
     cout<<"3. Send an email"<<endl;
     cout<<"4. Change/Add Contact Information"<<endl;
     cout<<"5. Print all contacts"<<endl;
     cout<<"6. Delete a contact"<<endl;
-    cout<<"7. Add an appointment"<<endl;
-    cout<<"8. Cancel an appointment"<<endl;
-    cout<<"9. Print all appointments"<<endl;
-    cout<<"10. Find an appointment"<<endl;
-    cout<<"11. Quit"<<endl;
+    cout<<"7. Quit"<<endl;
     string answer;
     getline(cin,answer);
     AddressBook ab;
-    Calender c;
-    while(answer!="11"){
+    while(answer!="7"){
         if(answer=="1"){
             cout<<"Do you want to read in a contact file? y or n"<<endl;
             string a;
@@ -86,49 +79,22 @@ int main()
             getline(cin,last);
             ab.deletePerson(last, first);
         }
-        else if(answer=="7"){
-            string title;
-            int time;
-            cout<<"Event Name: ";
-            getline(cin, title);
-            cout<<"Time: ";
-            cin>>time;
-            c.addDate(title, time);
-        }
-        else if(answer=="8"){
-            cout<<"8"<<endl;
-        }
-        else if(answer=="9"){
-            cout<<"9"<<endl;
-        }
-        else if(answer=="10"){
-            cout<<"10"<<endl;
-        }
-        cin.ignore();
-    cout<<"====Address Book and Appointment Book Options===="<<endl;
-    cout<<"1. Add a contact"<<endl;
-    cout<<"2. Find contact information"<<endl;
-    cout<<"3. Send an email"<<endl;
-    cout<<"4. Change/Add Contact Information"<<endl;
-    cout<<"5. Print all contacts"<<endl;
-    cout<<"6. Delete a contact"<<endl;
-    cout<<"7. Add an appointment"<<endl;
-    cout<<"8. Cancel an appointment"<<endl;
-    cout<<"9. Print all appointments"<<endl;
-    cout<<"10. Find an appointment"<<endl;
-    cout<<"11. Quit"<<endl;
+        cout<<"====Address Book Options===="<<endl;
+        cout<<"1. Add a contact"<<endl;
+        cout<<"2. Find contact information"<<endl;
+        cout<<"3. Send an email"<<endl;
+        cout<<"4. Change/Add Contact Information"<<endl;
+        cout<<"5. Print all contacts"<<endl;
+        cout<<"6. Delete a contact"<<endl;
+        cout<<"7. Quit"<<endl;
         getline(cin,answer);
     }
     cout<<"Would you like to save your contacts to a file? y or n"<<endl;
     string a;
     getline(cin,a);
     if(a=="y"){
-        /*
-        fstream inFile;
-        inFile.open("SavedAddressBook.txt",std::fstream::trunc);
-        ab.saveFile(inFile);
-        inFile.close();
-        */
+        cout<<"Saving to file!"<<endl;
+        ab.saveFile();
         cout<<"Goodbye!"<<endl;
     }
     else

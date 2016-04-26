@@ -1,7 +1,6 @@
 #include <iostream>
 #include "AddressBook.h"
 #include <fstream>
-#include "Calender.h"
 using namespace std;
 
 int main()
@@ -21,7 +20,6 @@ int main()
     string answer;
     getline(cin,answer);
     AddressBook ab;
-    Calender c;
     while(answer!="11"){
         if(answer=="1"){
             cout<<"Do you want to read in a contact file? y or n"<<endl;
@@ -87,13 +85,7 @@ int main()
             ab.deletePerson(last, first);
         }
         else if(answer=="7"){
-            string title;
-            int time;
-            cout<<"Event Name: ";
-            getline(cin, title);
-            cout<<"Time: ";
-            cin>>time;
-            c.addDate(title, time);
+            cout<<"7"<<endl;
         }
         else if(answer=="8"){
             cout<<"8"<<endl;
@@ -104,7 +96,6 @@ int main()
         else if(answer=="10"){
             cout<<"10"<<endl;
         }
-        cin.ignore();
     cout<<"====Address Book and Appointment Book Options===="<<endl;
     cout<<"1. Add a contact"<<endl;
     cout<<"2. Find contact information"<<endl;
