@@ -8,6 +8,7 @@ struct date
     {
         title=in_title;
         time=in_time;
+        next=NULL;
     };
     string title;
     int time;
@@ -25,7 +26,7 @@ class Calender
         void cancel(string title);
     protected:
     private:
-        date* head;
+        date* head=NULL;
         date* searchList(int in_time);
 };
 
