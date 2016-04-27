@@ -29,6 +29,10 @@ void Calender::addDate(string title, int time)
     date*tmp=searchList(time);
     if (tmp==NULL)
         head=in_date;
+    else if(time<head->time){
+        in_date->next=head;
+        head=in_date;
+    }
     else{
         if(tmp->next=NULL)
             tmp->next=in_date;
@@ -43,7 +47,7 @@ void Calender::cancel(string title)
 {
     bool found=0;
     date* tmp=head;
-    while(tmp->next!=NULL){
+    while(tmp!=NULL){
         if(tmp->title==title){
             if(tmp==head)
                 head=tmp->next;
@@ -58,6 +62,7 @@ void Calender::cancel(string title)
             cout<<title<<" successfully canceled."<<endl;
             break;
         }
+        tmp=tmp->next;
     }
     if(!found)
         cout<<title<<" not found."<<endl;
@@ -65,8 +70,13 @@ void Calender::cancel(string title)
 void Calender::print()
 {
     date*tmp=head;
-    while(tmp!=NULL)
+    if(tmp==NULL){
+        cout<<"You have no scheduled appointments."<<endl;
+    }
+    while(tmp!=NULL){
         cout<<tmp->time<<" "<<tmp->title<<endl;
+        tmp=tmp->next;
+    }
 }
 void Calender::findDate(int time)
 {
@@ -78,6 +88,7 @@ void Calender::findDate(int time)
             found=1;
             break;
         }
+        temp=temp->next;
     }
     if (!found)
         cout<<time<<" is free."<<endl;
