@@ -24,6 +24,7 @@ class Calender
         void print();
         void findDate(int time);
         void cancel(string title);
+        void findAppointment(string title);
     protected:
     private:
         date* head=NULL;
