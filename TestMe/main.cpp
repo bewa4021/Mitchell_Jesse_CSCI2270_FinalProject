@@ -101,13 +101,30 @@ int main()
             c.print();
         }
         else if(answer=="10"){
-            cout<<"Please enter a time you would like to search for:"<<endl;
-            string t;
-            int time;
-            getline(cin, t);
-            stringstream convert(t);
-            convert>>time;
-            c.findDate(time);
+            string input;
+            cout<<"What would you like to search for?"<<endl;
+            cout<<"1. The time of the appointment"<<endl;
+            cout<<"2. The name of the appointment"<<endl;
+            getline(cin,input);
+            if(input == "1"){
+                cout<<"Please enter a time you would like to search for:"<<endl;
+                string t;
+                int time;
+                getline(cin, t);
+                stringstream convert(t);
+                convert>>time;
+                c.findDate(time);
+            }
+            else if(input == "2"){
+                cout<<"Please enter a name you would like to search for:"<<endl;
+                string title;
+                getline(cin,title);
+                c.findAppointment(title);
+            }
+            else{
+                cout<<"Please input a 1 or 2"<<endl;
+            }
+
         }
     cout<<"====Address Book and Appointment Book Options===="<<endl;
     cout<<"1. Add a contact"<<endl;

@@ -74,7 +74,7 @@ void Calender::print()
         cout<<"You have no scheduled appointments."<<endl;
     }
     while(tmp!=NULL){
-        cout<<tmp->time<<" "<<tmp->title<<endl;
+        cout<<"At "<<tmp->time<<" you have: "<<tmp->title<<endl;
         tmp=tmp->next;
     }
 }
@@ -92,6 +92,20 @@ void Calender::findDate(int time)
     }
     if (!found)
         cout<<time<<" is free."<<endl;
+}
+void Calender::findAppointment(string title){
+    bool found=0;
+    date* tmp=head;
+    while(tmp!=NULL){
+        if(tmp->title==title){
+            found=1;
+            cout<<title<<" is booked for "<<tmp->time<<endl;
+            break;
+        }
+        tmp=tmp->next;
+    }
+    if(!found)
+        cout<<title<<" not found."<<endl;
 }
 Calender::~Calender()
 {
